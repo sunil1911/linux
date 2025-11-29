@@ -1,0 +1,41 @@
+import streamlit as st
+import google.generativeai as genai
+
+
+API_KEY = "Enter your API key"
+
+genai.configure(api_key=API_KEY)
+model = genai.GenerativeModel("gemini-2.5-flash")
+
+st.set_page_config(page_title="Chatbot", page_icon="🤖", layout="centered")
+
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Hello! Pooche kuch bhi — main madad karunga."}
+    ]
+
+for m in st.session_state.messages:
+    with st.chat_message(m["role"]):
+        st.markdown(m["content"])
+
+user_input = st.chat_input("Type your message here...")
+
+if user_input:
+    st.session_state.messages.append({"role": "user", "content": user_input})
+
+    with st.chat_message("user"):
+        st.markdown(user_input)
+
+    if user_input.lower() == "exit":
+        bot_reply = "Bye! (Close the tab to end the session.)"
+    else:
+        try:
+            response = model.generate_content(user_input)
+            bot_reply = response.text
+        except Exception as e:
+            bot_reply = f"Error: {e}"
+
+    st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+
+    with st.chat_message("assistant"):
+        st.markdown(bot_reply)
