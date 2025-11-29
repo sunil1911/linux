@@ -1,0 +1,17 @@
+
+import pyttsx3 as pyt
+speaker = pyt.init()
+speaker.say("SUNIL")
+speaker.runAndWait()
+import speech_recognition as sr
+mic = sr.Recognizer()
+with sr.Microphone() as source:
+    print("Start Speaking....")
+    voice = mic.listen(source)
+    try:
+        text = mic.recognize_google(voice)
+        print("You said:", text)
+    except sr.UnknownValueError:
+        print("Sorry, I could not understand the audio.")
+    except sr.RequestError:
+        print("Could not request results, check your internet connection.")
