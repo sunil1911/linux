@@ -1,0 +1,58 @@
+from flask import Flask, redirect
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return """
+    <h1>Home Page</h1>
+    <p>Welcome to Flask!</p>
+    <p>Navigate to:
+       <a href='/whatsapp'>WhatsApp</a> |
+       <a href='/resume'>Resume</a>
+    </p>
+    """
+
+@app.route("/whatsapp")
+def open_whatsapp():
+    return redirect("https://web.whatsapp.com/")
+
+@app.route("/resume")
+def resume():
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Sunil RESUME</title>
+      <style>
+        body { font-family: Arial; margin: 40px; background: #f4f4f9; }
+        .container { max-width: 700px; margin:auto; background:#fff; padding:20px; }
+        h1 { margin-bottom:5px; }
+        h2 { margin-top:20px; border-bottom:1px solid #ddd; }
+        ul { padding:0; list-style:none; }
+        li { margin:5px 0; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>Sunil</h1>
+        <p>Email: sunilmehramehra671@gamil.com | Phone: +91-8209169320</p>
+
+        <h2>Education</h2>
+        <ul><li>B.Tech in Computer Science - VGU University </li></ul>
+
+        <h2>Skills</h2>
+        <ul><li>Python, Flask, HTML, CSS</li><li>Chatbot Development</li></ul>
+
+        <h2>Projects</h2>
+        <ul><li>ATM Simulator</li><li>Bus Booking System</li><li>Interactive Chatbot</li></ul>
+
+        <h2>Experience</h2>
+        <ul><li>Internship at LINUXWORLD- Python Developer</li></ul>
+      </div>
+    </body>
+    </html>
+    """
+
+if __name__ == "__main__":
+    app.run()
