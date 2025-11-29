@@ -1,0 +1,30 @@
+print("Welcome to Movie Ticket Booking")
+
+name = input("Enter your name: ")
+tickets = int(input("Enter number of tickets: "))
+
+total = 0  
+
+for i in range(1, tickets + 1):
+    print(f"\n--- Person {i} ---")
+    age = int(input("Enter age: "))
+
+    if age < 12:
+        price = 100
+        print("Child ticket price is 100")
+
+    elif age >= 12 and age < 60:
+        price = 150
+        print("Adult ticket price is 150")
+
+    else:
+        price = 120
+        print("Senior ticket price is 120")
+
+    total += price  
+
+print("\n-----------------------------")
+print("Hello", name)
+print("You booked", tickets, "tickets")
+print("Your total amount is:", total)
+print("-----------------------------")
