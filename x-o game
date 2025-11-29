@@ -1,0 +1,106 @@
+import pygame
+pygame.init()
+
+
+WIDTH, HEIGHT = 600, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("X O Game")
+
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+SIZE = WIDTH // 3
+
+
+board = [["", "", ""],
+         ["", "", ""],
+         ["", "", ""]]
+player = "X"
+
+
+font = pygame.font.Font(None, 120)
+
+def check_winner(b):
+    
+    for i in range(3):
+        if b[i][0] == b[i][1] == b[i][2] != "":
+            return b[i][0]
+        if b[0][i] == b[1][i] == b[2][i] != "":
+            return b[0][i]
+    if b[0][0] == b[1][1] == b[2][2] != "":
+        return b[0][0]
+    if b[0][2] == b[1][1] == b[2][0] != "":
+        return b[0][2]
+    
+    for row in b:
+        for cell in row:
+            if cell == "":
+                return None  
+    return "Draw"
+
+def draw_board():
+    screen.fill(WHITE)
+    
+    pygame.draw.line(screen, BLACK, (SIZE, 0), (SIZE, HEIGHT), 5)
+    pygame.draw.line(screen, BLACK, (2*SIZE, 0), (2*SIZE, HEIGHT), 5)
+    pygame.draw.line(screen, BLACK, (0, SIZE), (WIDTH, SIZE), 5)
+    pygame.draw.line(screen, BLACK, (0, 2*SIZE), (WIDTH, 2*SIZE), 5)
+
+    
+    for r in range(3):
+        for c in range(3):
+            if board[r][c] != "":
+                text = font.render(board[r][c], True, BLACK)
+                
+                text_rect = text.get_rect(center=(c*SIZE + SIZE//2, r*SIZE + SIZE//2))
+                screen.blit(text, text_rect)
+
+def reset_board():
+    for r in range(3):
+        for c in range(3):
+            board[r][c] = ""
+
+run = True
+winner = None
+
+while run:
+    draw_board()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
+        elif event.type == pygame.MOUSEBUTTONDOWN and winner is None:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            row = mouse_y // SIZE
+            col = mouse_x // SIZE
+            
+            if 0 <= row < 3 and 0 <= col < 3:
+                if board[row][col] == "":
+                    board[row][col] = player          
+                    
+                    winner = check_winner(board)
+                    
+                    if winner is None:
+                        player = "O" if player == "X" else "X"
+
+        
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                reset_board()
+                player = "X"
+                winner = None
+
+    
+    if winner is not None:
+        if winner == "Draw":
+            msg = "Draw! Press R to restart"
+        else:
+            msg = f"{winner} wins! Press R to restart"
+        small_font = pygame.font.Font(None, 40)
+        text = small_font.render(msg, True, BLACK)
+        screen.blit(text, (10, HEIGHT - 40))
+
+    pygame.display.update()
+
+pygame.quit()
