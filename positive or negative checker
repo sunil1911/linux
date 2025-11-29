@@ -1,0 +1,13 @@
+import streamlit as st
+
+st.title("Number Checker")
+
+num = st.number_input("Enter a number:", format="%.2f")
+
+if st.button("Check"):
+    if num > 0:
+        st.success(f"{num} is Positive")
+    elif num < 0:
+        st.error(f"{num} is Negative")
+    else:
+        st.info("The number is Zero")
