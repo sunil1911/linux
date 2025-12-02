@@ -1,0 +1,17 @@
+from twilio.rest import Client
+
+ACCOUNT_SID = "YOUR_APIKEY"
+AUTH_TOKEN = "YOUR TOKEN NO."
+
+TWILIO_NUMBER = "YOUR TWILIO NUMBER"
+RECEIVER_NUMBER = "+918209169320"
+
+Client = Client(ACCOUNT_SID, AUTH_TOKEN)
+
+message = Client.messages.create(
+    body="Hello I am Sunil",
+    from_=TWILIO_NUMBER,
+    to=RECEIVER_NUMBER
+)
+
+print("Message sent! SID:", message.sid)
