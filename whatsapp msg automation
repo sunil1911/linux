@@ -1,0 +1,28 @@
+import pyttsx3
+import speech_recognition as sr
+import pywhatkit
+import os
+
+speaker = pyttsx3.init()
+mic = sr.Recognizer()
+
+speaker.say("hello world")
+speaker.runAndWait()
+
+with sr.Microphone() as source:
+    print("Start speaking....")
+    voice = mic.listen(source)
+
+try:
+    text = mic.recognize_google(voice)
+    print("You said:", text)
+except:
+    print("Could not understand audio")
+    text = ""
+
+if "open notepad" in text.lower():
+    print("Opening Notepad ...")
+    os.system("notepad")
+elif "send message" in text.lower():
+    print("Sending MSG ...")
+    pywhatkit.sendwhatmsg_instantly("+918209169320", "hi am from Jaipur")
